@@ -19,7 +19,6 @@ class ViewController: CustomTabBarViewController {
     
     func setMenuBarView() {
         view.addSubview(menuBar)
-        menuBar.delegate = self
         NSLayoutConstraint.activate([
             menuBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             menuBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),

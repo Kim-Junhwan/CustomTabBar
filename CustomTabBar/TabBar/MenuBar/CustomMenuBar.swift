@@ -44,25 +44,20 @@ class CustomMenuBar: UIView {
         return indicatorMarkView.leadingAnchor.constraint(equalTo: menuBarCollectionView.leadingAnchor)
     }()
     
-    private lazy var indicatorMarkViewTrailingConstraint: NSLayoutConstraint = {
-        return indicatorMarkView.trailingAnchor.constraint(equalTo: menuBarCollectionView.leadingAnchor)
+    private lazy var indicatorMarkViewWidthConstraint: NSLayoutConstraint = {
+        return indicatorMarkView.widthAnchor.constraint(equalTo: menuBarCollectionView.widthAnchor, multiplier:  1/CGFloat(items.count))
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setView()
+        setMenuBar()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var items: [UITabBarItem] = []
-    
-    private func setView() {
-        setMenuBar()
-        setIndicatorMarkView()
-    }
+    private lazy var items: [UITabBarItem] = []
     
     private func setMenuBar() {
         addSubview(menuBarCollectionView)
@@ -83,12 +78,13 @@ class CustomMenuBar: UIView {
             indicatorMarkView.topAnchor.constraint(equalTo: menuBarCollectionView.bottomAnchor),
             indicatorMarkView.heightAnchor.constraint(equalToConstant: Metric.indicatorViewHeight),
             indicatorMarkViewLeadingConstraint,
-            indicatorMarkViewTrailingConstraint
+            indicatorMarkViewWidthConstraint
         ])
     }
     
     public func setItems(tabBarItems: [UITabBarItem]) {
         self.items = tabBarItems
+        setIndicatorMarkView()
         menuBarCollectionView.reloadData()
     }
     
@@ -110,7 +106,7 @@ extension CustomMenuBar: UICollectionViewDelegate, UICollectionViewDataSource {
         guard let cell = collectionView.cellForItem(at: indexPath) else { return }
         cell.isSelected = true
         indicatorMarkViewLeadingConstraint.constant = cell.frame.origin.x
-        indicatorMarkViewTrailingConstraint.constant = cell.frame.origin.x+cell.frame.width
+//        indicatorMarkViewWidthConstraint.constant = cell.frame.origin.x+cell.frame.width
         delegate?.didSelect(indexNum: indexPath.row)
     }
     

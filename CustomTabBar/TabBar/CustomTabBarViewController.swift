@@ -31,7 +31,14 @@ class CustomTabBarViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Load CustomTabBarController")
+        menuBar.delegate = self
+        selectStartIndex(row: 0)
+    }
+    
+    private func selectStartIndex(row: Int) {
+        let indexPath = IndexPath(row: row, section: 0)
+        menuBar.menuBarCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
+        didSelect(indexNum: 0)
     }
     
     private func setMenuBarItems(_ viewControllers: [UIViewController]) {
