@@ -12,7 +12,6 @@ class CustomTabBarViewController: UIViewController {
     lazy var menuBar: CustomMenuBar = {
        let menuBar = CustomMenuBar()
         menuBar.translatesAutoresizingMaskIntoConstraints = false
-        menuBar.setItems(tabBarItems: [UITabBarItem(title: "일번", image: nil, tag: 0), UITabBarItem(title: "이번", image: nil, tag: 1), UITabBarItem(title: "삼번", image: nil, tag: 2)])
         return menuBar
     }()
     
@@ -59,8 +58,10 @@ extension CustomTabBarViewController: CustomMenuBarDelegate {
     func didSelect(indexNum: Int) {
         let selectViewController = viewControllers[indexNum]
         if !checkIncludeViewController(vc: selectViewController) {
+            addChild(selectViewController)
             pageView.addSubview(selectViewController.view)
             configureConstraintsForContainedView(containedView: selectViewController.view)
+            selectViewController.didMove(toParent: self)
         }
         hiddenSubViews()
         pageView.subviews.first { $0.isEqual(selectViewController.view) }?.isHidden = false
