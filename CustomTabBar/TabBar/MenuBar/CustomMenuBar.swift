@@ -105,8 +105,10 @@ extension CustomMenuBar: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) else { return }
         cell.isSelected = true
-        indicatorMarkViewLeadingConstraint.constant = cell.frame.origin.x
-//        indicatorMarkViewWidthConstraint.constant = cell.frame.origin.x+cell.frame.width
+        UIView.animate(withDuration: 0.3) {
+            self.indicatorMarkViewLeadingConstraint.constant = cell.frame.origin.x
+            self.layoutIfNeeded()
+        }
         delegate?.didSelect(indexNum: indexPath.row)
     }
     
